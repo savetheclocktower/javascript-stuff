@@ -4,17 +4,16 @@
  *  of the CSS ":hover" pseudoclass.
  */
 
-
 (function() {
   function respondToMouseOver(event) {
     var target = event.element();
-    if (e.relatedTarget && !e.relatedTarget.descendantOf(target))
+    if (event.relatedTarget && !event.relatedTarget.descendantOf(target))
       target.fire("mouse:enter");
   }
   
   function respondToMouseOut(event) {
     var target = event.element();
-    if (e.relatedTarget && !e.relatedTarget.descendantOf(target))
+    if (event.relatedTarget && !event.relatedTarget.descendantOf(target))
       target.fire("mouse:leave");
   }
     
@@ -29,6 +28,5 @@
   } else {
     document.observe("mouseover", respondToMouseOver);
     document.observe("mouseout",  respondToMouseOut);
-  }
-  
+  }  
 })();
