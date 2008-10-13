@@ -9,6 +9,18 @@
  *  A port of YUI's Browser History Manager with a slightly different API.
  * 
  *  INSTRUCTIONS:
+ *  First: to get this working across all browsers you need both a hidden
+ *  INPUT field _and_ a hidden IFRAME. Somewhere on your page (preferably
+ *  at the bottom) you'll need to tell the history manager where these things
+ *  are. For example:
+ *
+ *  <input type="hidden" id="history_field" />
+ *  <iframe id="history_iframe" style="display: none;"></iframe>
+ *  <script type="text/javascript" charset="utf-8">
+ *    History.stateField = $('history_manager');
+ *    History.iframe = $('history_iframe');
+ *  </script>
+ *
  *  The `History` object functions as an instance of Hash. While the page is
  *  loading, any calls to `History.set` will determine the _initial_ value
  *  of any key-value pair. After the window.load event fires, any key/value
@@ -74,6 +86,7 @@
   
   function _initialize() { 
     _stateField = History.stateField;
+    _iframe     = History.iframe;
     _debug("in _initialize");
     
     // Unserialize the hash from the hidden field.
