@@ -1,4 +1,4 @@
-/*
+/**
  *  NOTE: In case the version number doesn't tip you off... this is really
  *  preliminary code. I welcome you to try it out and tell me if it sucks;
  *  I'll try to make it suck less. Thanks!
@@ -23,7 +23,7 @@
  *
  *  The `History` object functions as an instance of Hash. While the page is
  *  loading, any calls to `History.set` will determine the _initial_ value
- *  of any key-value pair. After the window.load event fires, any key/value
+ *  of any key-value pair. After the window load event fires, any key/value
  *  pairs are serialized and placed into the URL hash.
  *
  *  Now, whenever `History.set` is called, the URL hash will change, and the
@@ -256,6 +256,14 @@
       }, this);
     },
   
+    /**
+     *  History.set(key, value)
+     *  
+     *  Sets a key/value pair, updating the URL and triggering a new
+     *  navigation state in the browser.
+     *  - key (String): The key to set.
+     *  - value (String): The value to set.
+    **/
     set: function($super, key, value) {
       var item;
       if (!this.get(key)) {
@@ -281,6 +289,12 @@
       return item;
     },
     
+    /**
+     *  Hash.get(key)
+     *  Retrieves the _current_ value of the item in the URL hash with the
+     *  given key.
+     *  - key (String): The key to retrieve.
+    **/    
     get: function($super, key) {
       var value = $super(key);
       return value ? value.currentState : null;
