@@ -268,7 +268,7 @@
     **/
     set: function($super, key, value) {
       var item;
-      if (!this.get(key)) {
+      if (this.get(key) === null) {
         if (_initialized) {
           throw new Error("New key cannot be set after initialization!");
         } else {
@@ -283,12 +283,14 @@
         var memo = Object.clone(item);
         memo.previousState = item.currentState;
         memo.currentState  = value;
-        document.fire("hash:changed:" + key, memo);
+        document.fire("hash:changed:" + key, memo);        
       }
       item.currentState = value;
       item = $super(key, item);
       _updateHash(this);
-      return item;
+      
+      document.fire("hash:changed", this.toObject());
+      return item;      
     },
     
     /**
@@ -307,6 +309,14 @@
         return [pair.key, pair.value.currentState].join('=');
       }
       return "#" + this.map(toURLPair).join('&');
+    },
+    
+    toObject: function() {
+      var obj = {};
+      this.each( function(pair) {
+        obj[pair.key] = pair.value.currentState;
+      }, this);
+      return obj;
     }
   });
   
