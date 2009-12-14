@@ -83,7 +83,7 @@
   
   function _debug() {
     if (!DEBUG) return;
-    return console.log(arguments);
+    return console.log.apply(console, arguments);
   }  
   
   function _initialize() { 
@@ -93,6 +93,9 @@
     
     // Unserialize the hash from the hidden field.
     _historyHash = new $HistoryHash(_stateField.value);
+    
+    _historyHash.updateWithURLHash(_getHash());
+    
     
     if (Prototype.Browser.IE) {
       _checkIFrameLoaded();
@@ -120,7 +123,6 @@
       _originalHash = window.History;
       _historyHash.update(_originalHash.toObject());
       
-      console.log(_originalHash);
       window._old = _originalHash;
       
       window.History = _historyHash;
@@ -317,7 +319,7 @@
         obj[pair.key] = pair.value.currentState;
       }, this);
       return obj;
-    }
+    }    
   });
   
   Event.observe(window, 'load', _initialize);
