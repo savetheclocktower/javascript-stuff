@@ -1,68 +1,70 @@
-/**
- *  NOTE: In case the version number doesn't tip you off... this is really
- *  preliminary code. I welcome you to try it out and tell me if it sucks;
- *  I'll try to make it suck less. Thanks!
- *
- *  Prototype History Manager
- *  =========================
- * 
- *  A port of YUI's Browser History Manager with a slightly different API.
- * 
- *  INSTRUCTIONS:
- *  First: to get this working across all browsers you need both a hidden
- *  INPUT field _and_ a hidden IFRAME. Somewhere on your page (preferably
- *  at the bottom) you'll need to tell the history manager where these things
- *  are. For example:
- *
- *  <input type="hidden" id="history_field" />
- *  <iframe id="history_iframe" style="display: none;"></iframe>
- *  <script type="text/javascript" charset="utf-8">
- *    History.stateField = $('history_manager');
- *    History.iframe = $('history_iframe');
- *  </script>
- *
- *  The `History` object functions as an instance of Hash. While the page is
- *  loading, any calls to `History.set` will determine the _initial_ value
- *  of any key-value pair. After the window load event fires, any key/value
- *  pairs are serialized and placed into the URL hash.
- *
- *  Now, whenever `History.set` is called, the URL hash will change, and the
- *  browser will treat that change as a "page navigation."
- *
- *  Whenever the value of a key changes, whether by updating the value through
- *  `History.set`, using Back/Forward, or hacking the URL, the history manager
- *  will fire a custom event for each key that changed, in the form of
- *  `hash:changed:[name_of_key]`. The event object's `memo` property will
- *  have several properties: `initialState`, `previousState`, and
- *  `currentState`, informing you what the value used to be and what it is now.
- *
- *
- *  DETAILED EXAMPLE:
- *
- *  (during page load)
- *  History.set("foo", "bar");
- *  History.set("baz", "thud");
- *
- *  (when page loads)
- *  URL hash set to "#foo=bar&baz=thud"
- *
- *  (later...)
- *  History.set("foo", "blerg");
- *  URL hash set to "#foo=blerg&baz=thud"
- *  `document` fires custom event: `hash:changed:foo`
- *    event.memo.initialState:  "bar"
- *    event.memo.previousState: "bar"
- *    event.memo.currentState:  "blerg"
- * 
- *  (later still...)
- *  User clicks on Back button
- *  URL hash set to "#foo=bar&baz=thud"
- *  `document` fires custom event: `hash:changed:foo`
- *    event.memo.initialState:  "bar"
- *    event.memo.previousState: "blerg"
- *    event.memo.currentState:  "bar"
- * 
- */
+//= require <prototype>
+
+//
+// NOTE: In case the version number doesn't tip you off... this is really
+// preliminary code. I welcome you to try it out and tell me if it sucks;
+// I'll try to make it suck less. Thanks!
+//
+// Prototype History Manager
+// =========================
+//
+// A port of YUI's Browser History Manager with a slightly different API.
+//
+// INSTRUCTIONS:
+// First: to get this working across all browsers you need both a hidden
+// INPUT field _and_ a hidden IFRAME. Somewhere on your page (preferably
+// at the bottom) you'll need to tell the history manager where these things
+// are. For example:
+//
+// <input type="hidden" id="history_field" />
+// <iframe id="history_iframe" style="display: none;"></iframe>
+// <script type="text/javascript" charset="utf-8">
+//   History.stateField = $('history_manager');
+//   History.iframe = $('history_iframe');
+// </script>
+//
+// The `History` object functions as an instance of Hash. While the page is
+// loading, any calls to `History.set` will determine the _initial_ value
+// of any key-value pair. After the window load event fires, any key/value
+// pairs are serialized and placed into the URL hash.
+//
+// Now, whenever `History.set` is called, the URL hash will change, and the
+// browser will treat that change as a "page navigation."
+//
+// Whenever the value of a key changes, whether by updating the value through
+// `History.set`, using Back/Forward, or hacking the URL, the history manager
+// will fire a custom event for each key that changed, in the form of
+// `hash:changed:[name_of_key]`. The event object's `memo` property will
+// have several properties: `initialState`, `previousState`, and
+// `currentState`, informing you what the value used to be and what it is now.
+//
+//
+// DETAILED EXAMPLE:
+//
+// (during page load)
+// History.set("foo", "bar");
+// History.set("baz", "thud");
+//
+// (when page loads)
+// URL hash set to "#foo=bar&baz=thud"
+//
+// (later...)
+// History.set("foo", "blerg");
+// URL hash set to "#foo=blerg&baz=thud"
+// `document` fires custom event: `hash:changed:foo`
+//   event.memo.initialState:  "bar"
+//   event.memo.previousState: "bar"
+//   event.memo.currentState:  "blerg"
+//
+// (later still...)
+// User clicks on Back button
+// URL hash set to "#foo=bar&baz=thud"
+// `document` fires custom event: `hash:changed:foo`
+//   event.memo.initialState:  "bar"
+//   event.memo.previousState: "blerg"
+//   event.memo.currentState:  "bar"
+//
+//
 
 (function() {
   var VERSION = "0.1";

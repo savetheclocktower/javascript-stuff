@@ -1,3 +1,5 @@
+//= require <prototype>
+
 // Mixin for linking an element and a widget instance that controls its
 // behavior. (Storing the instance as a property of the element itself
 // leads to memory leaks.)
@@ -38,7 +40,7 @@ Element.addMethods({
     if (instances && element.id && instances[element.id]) {
       return instances[element.id];
     } else {
-      throw "Must call Bindable#bindToElement first."
+      throw "Must call Bindable#bindToElement first.";
     }
   }
 });

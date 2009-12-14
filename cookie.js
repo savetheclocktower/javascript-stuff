@@ -1,3 +1,4 @@
+//= require <prototype>
 
 if (!Prototype || Prototype.Version.indexOf('1.6') !== 0) {
   throw "This script requires Prototype >= 1.6.";
